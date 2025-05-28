@@ -1,4 +1,3 @@
-# Exemplo 5 - Mapa com imagens
 import pygame
 hero_animation_frame = 0
 hero_start_frame = 0
@@ -52,188 +51,98 @@ def update(dt):
     #Move Mudkip
     if keys[pygame.K_UP] and keys[pygame.K_LEFT]:
         hero_start_frame = 5
-        hero_pos_y = hero_pos_y - (vel * dt) # movimenta o personagem
-        hero_pos_x = hero_pos_x - (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_y = hero_pos_y - (vel * dt)
+        hero_pos_x = hero_pos_x - (vel * dt)
 
     elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
         hero_start_frame = 7
-        hero_pos_y = hero_pos_y + (vel * dt) # movimenta o personagem
-        hero_pos_x = hero_pos_x - (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_y = hero_pos_y + (vel * dt)
+        hero_pos_x = hero_pos_x - (vel * dt)
     
     elif keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
         hero_start_frame = 3
-        hero_pos_y = hero_pos_y - (vel * dt) # movimenta o personagem
-        hero_pos_x = hero_pos_x + (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_y = hero_pos_y - (vel * dt)
+        hero_pos_x = hero_pos_x + (vel * dt)
 
     elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
         hero_start_frame = 1
-        hero_pos_y = hero_pos_y + (vel * dt) # movimenta o personagem
-        hero_pos_x = hero_pos_x + (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_y = hero_pos_y + (vel * dt)
+        hero_pos_x = hero_pos_x + (vel * dt)
     
     elif keys[pygame.K_RIGHT]:
         hero_start_frame = 2
-        hero_pos_x = hero_pos_x + (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_x = hero_pos_x + (vel * dt)
 
     elif keys[pygame.K_LEFT]:
         hero_start_frame = 6
-        hero_pos_x = hero_pos_x - (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_x = hero_pos_x - (vel * dt)
     
     elif keys[pygame.K_UP]:
         hero_start_frame = 4
-        hero_pos_y = hero_pos_y - (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_y = hero_pos_y - (vel * dt)
 
     elif keys[pygame.K_DOWN]:
         hero_start_frame = 0
-        hero_pos_y = hero_pos_y + (vel * dt) # movimenta o personagem
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+        hero_pos_y = hero_pos_y + (vel * dt)
 
-    else:
-        hero_anim_time = hero_anim_time + dt #incrementa o tempo usando dt
-        if hero_anim_time > 100: #quando acumular mais de 100 ms
-            hero_animation_frame = hero_animation_frame + 1 # avança para proximo frame
-            if hero_animation_frame > 6: # loop da animação
-                hero_animation_frame = 0
-            hero_anim_time = 0 #reinicializa a contagem do tempo
+    hero_anim_time = hero_anim_time + dt 
+    if hero_anim_time > 100: 
+        hero_animation_frame = hero_animation_frame + 1 
+        if hero_animation_frame > 6: 
+            hero_animation_frame = 0
+        hero_anim_time = 0 
 
     #Move Chimchar
     if keys[pygame.K_w] and keys[pygame.K_a]:
         part_start_frame = 5
-        part_pos_y = part_pos_y - (vel * dt) # movimenta o personagem
-        part_pos_x = part_pos_x - (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_y = part_pos_y - (vel * dt)
+        part_pos_x = part_pos_x - (vel * dt)
+         
 
     elif keys[pygame.K_s] and keys[pygame.K_a]:
         part_start_frame = 7
-        part_pos_y = part_pos_y + (vel * dt) # movimenta o personagem
-        part_pos_x = part_pos_x - (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_y = part_pos_y + (vel * dt)
+        part_pos_x = part_pos_x - (vel * dt)
+         
     
     elif keys[pygame.K_w] and keys[pygame.K_d]:
         part_start_frame = 3
-        part_pos_y = part_pos_y - (vel * dt) # movimenta o personagem
-        part_pos_x = part_pos_x + (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_y = part_pos_y - (vel * dt)
+        part_pos_x = part_pos_x + (vel * dt)
+         
 
     elif keys[pygame.K_s] and keys[pygame.K_d]:
         part_start_frame = 1
-        part_pos_y = part_pos_y + (vel * dt) # movimenta o personagem
-        part_pos_x = part_pos_x + (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_y = part_pos_y + (vel * dt)
+        part_pos_x = part_pos_x + (vel * dt)
+         
     
     elif keys[pygame.K_d]:
         part_start_frame = 2
-        part_pos_x = part_pos_x + (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_x = part_pos_x + (vel * dt)
+         
 
     elif keys[pygame.K_a]:
         part_start_frame = 6
-        part_pos_x = part_pos_x - (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_x = part_pos_x - (vel * dt)
+         
     
     elif keys[pygame.K_w]:
         part_start_frame = 4
-        part_pos_y = part_pos_y - (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_y = part_pos_y - (vel * dt)
+         
 
     elif keys[pygame.K_s]:
         part_start_frame = 0
-        part_pos_y = part_pos_y + (vel * dt) # movimenta o personagem
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
-
-    else:
-        part_anim_time = part_anim_time + dt #incrementa o tempo usando dt
-        if part_anim_time > 100: #quando acumular mais de 100 ms
-            part_animation_frame = part_animation_frame + 1 # avança para proximo frame
-            if part_animation_frame > 4: # loop da animação
-                part_animation_frame = 0
-            part_anim_time = 0 #reinicializa a contagem do tempo
+        part_pos_y = part_pos_y + (vel * dt)
+         
+    part_anim_time = part_anim_time + dt 
+    if part_anim_time > 100: 
+        part_animation_frame = part_animation_frame + 1 
+        if part_animation_frame > 4: 
+            part_animation_frame = 0
+        part_anim_time = 0
+        
     
     
     collider_hero = pygame.Rect(hero_pos_x, hero_pos_y, 24, 24)
@@ -268,7 +177,8 @@ def update(dt):
     
 
 def draw_screen(screen):
-  # Mapa plataforma
+  
+  # Mapa
   for i, linha in enumerate(mapa):
     for j, char in enumerate(linha):
       if char == "W":
@@ -300,27 +210,26 @@ def draw_screen(screen):
   screen.blit(playerChar,(hero_pos_x, hero_pos_y),(spt_wdt * hero_animation_frame, hero_start_frame*spt_hgt, spt_wdt,spt_hgt))
   screen.blit(partChar,(part_pos_x, part_pos_y),(part_wdt * part_animation_frame, part_start_frame*spt_hgt, spt_wdt,spt_hgt))
   
-#####################################################
-# A PRINCIPIO NÃO PRECISA ALTERAR DAQUI PRA BAIXO   #
-#####################################################
+
+# Pygame
 def main_loop(screen):  
     global clock
     running = True
     while running:
         for e in pygame.event.get(): 
-            if e.type == pygame.QUIT: # fechamento do prog
+            if e.type == pygame.QUIT: # fecha o jogo
                 running = False
                 break
 
-        # Define FPS máximo
+        # FPS máximo
         clock.tick(60)
-        # Tempo transcorrido desde a última atualização 
+        # Tempo entre frames 
         dt = clock.get_time()
         # Atualiza posição dos objetos
         update(dt)
         # Desenha objetos
         draw_screen(screen)
-        # Pygame atualiza a visualização da tela
+        # Update da tela
         pygame.display.update()
 
 # Programa principal
