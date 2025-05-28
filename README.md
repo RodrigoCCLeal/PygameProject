@@ -1,4 +1,4 @@
-# PygameProject
+# TrabalhoFinalPygame
 
 Jogo para duas pessoas
 
