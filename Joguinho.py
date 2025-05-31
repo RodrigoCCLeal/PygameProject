@@ -25,7 +25,7 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     file.close()
 
 def load():
-    global clock, p1CharAnim, tileset, tile_wdt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon
+    global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon
     global collider_p1, collider_p2
     clock = pygame.time.Clock() 
     load_mapa("mapa.txt")
@@ -40,14 +40,14 @@ def load():
     p2CharAnim = p2Mon["idle"]
     
     tile_wdt = tileset.get_width()/16
+    tile_hgt = tileset.get_height()/25
 
-    for (x,l) in enumerate(mapa):
-        for (y,c) in enumerate(l):
+    for (y,l) in enumerate(mapa):
+        for (x,c) in enumerate(l):
+            parede = pygame.Rect(x*tile_wdt, y*tile_hgt, tile_wdt, tile_hgt)            
             if c == "W":
-                parede = pygame.Rect(y*24, x*24, 24, 24)
-                lColliders.append(parede)
+               lColliders.append(parede)
             elif c == "9":
-                parede = pygame.Rect(y*24, x*24, 24, 24)
                 lAguaCol.append(parede)
         
 
