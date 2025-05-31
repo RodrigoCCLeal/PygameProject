@@ -53,29 +53,11 @@ def load():
 
 
 def update(dt):
-    global hero_animation_frame, hero_start_frame, hero_pos_x, hero_pos_y, hero_anim_time, collider_hero, velH
-    global part_animation_frame, part_start_frame, part_pos_y, part_pos_x, part_anim_time, collider_part, velP
+    global hero_animation_frame, hero_start_frame, hero_pos_x, hero_pos_y, hero_anim_time, collider_hero
+    global part_animation_frame, part_start_frame, part_pos_y, part_pos_x, part_anim_time, collider_part
     keys = pygame.key.get_pressed()
     old_hero_x, old_hero_y = hero_pos_x, hero_pos_y
     old_part_x, old_part_y = part_pos_x, part_pos_y
-
-    # Colisão
-    collider_hero = pygame.Rect(hero_pos_x, hero_pos_y, 24, 24)
-    collider_part = pygame.Rect(part_pos_x, part_pos_y, 24, 24)
-
-    if collider_hero.collidelist(lColliders) >= 0:
-        hero_pos_x = old_hero_x
-        hero_pos_y = old_hero_y
-
-    if collider_hero.collidelist(lAguaCol) >= 0:
-        velH = 0.15
-    else:
-       velH = 0.1
-
-        
-    if collider_part.collidelist(lColliders) >= 0:
-        part_pos_x = old_part_x
-        part_pos_y = old_part_y
 
     #Move Mudkip
     if keys[pygame.K_UP] and keys[pygame.K_LEFT]:
@@ -173,7 +155,18 @@ def update(dt):
         part_anim_time = 0
 
 
-    
+    # Colisão
+
+    collider_hero = pygame.Rect(hero_pos_x, hero_pos_y, 24, 24)
+    collider_part = pygame.Rect(part_pos_x, part_pos_y, 24, 24)
+
+    if collider_hero.collidelist(lColliders) >= 0:
+        hero_pos_x = old_hero_x
+        hero_pos_y = old_hero_y
+        
+    if collider_part.collidelist(lColliders) >= 0:
+        part_pos_x = old_part_x
+        part_pos_y = old_part_y
 
 
     
