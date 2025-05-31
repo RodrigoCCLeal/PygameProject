@@ -56,6 +56,7 @@ def update(dt):
     global hero_animation_frame, hero_start_frame, hero_pos_x, hero_pos_y, hero_anim_time, collider_hero
     global part_animation_frame, part_start_frame, part_pos_y, part_pos_x, part_anim_time, collider_part
     keys = pygame.key.get_pressed()
+
     old_hero_x, old_hero_y = hero_pos_x, hero_pos_y
     old_part_x, old_part_y = part_pos_x, part_pos_y
 
@@ -95,13 +96,6 @@ def update(dt):
     elif keys[pygame.K_DOWN]:
         hero_start_frame = 0
         hero_pos_y = hero_pos_y + (velH * dt)
-
-    hero_anim_time = hero_anim_time + dt 
-    if hero_anim_time > 100: 
-        hero_animation_frame = hero_animation_frame + 1 
-        if hero_animation_frame > 6: 
-            hero_animation_frame = 0
-        hero_anim_time = 0 
 
     #Move Chimchar
     if keys[pygame.K_w] and keys[pygame.K_a]:
@@ -147,6 +141,15 @@ def update(dt):
         part_start_frame = 0
         part_pos_y = part_pos_y + (velP * dt)
          
+
+    #Animação
+    hero_anim_time = hero_anim_time + dt 
+    if hero_anim_time > 100: 
+        hero_animation_frame = hero_animation_frame + 1 
+        if hero_animation_frame > 6: 
+            hero_animation_frame = 0
+        hero_anim_time = 0 
+
     part_anim_time = part_anim_time + dt 
     if part_anim_time > 100: 
         part_animation_frame = part_animation_frame + 1 
@@ -156,15 +159,17 @@ def update(dt):
 
 
     # Colisão
-
     collider_hero = pygame.Rect(hero_pos_x, hero_pos_y, 24, 24)
     collider_part = pygame.Rect(part_pos_x, part_pos_y, 24, 24)
-
+    
     if collider_hero.collidelist(lColliders) >= 0:
         hero_pos_x = old_hero_x
         hero_pos_y = old_hero_y
         
     if collider_part.collidelist(lColliders) >= 0:
+        part_pos_x = old_part_x
+        part_pos_y = old_part_y
+    elif collider_part.collidelist(lAguaCol) >= 0:
         part_pos_x = old_part_x
         part_pos_y = old_part_y
 
@@ -182,22 +187,6 @@ def draw_screen(screen):
         screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*11, tile_wdt, tile_wdt, tile_wdt))
       elif char == "B":
         screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*2, tile_wdt, tile_wdt, tile_wdt))
-      elif char == "1":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*6, tile_wdt*2, tile_wdt, tile_wdt))
-      elif char == "2":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*7, tile_wdt*2, tile_wdt, tile_wdt))
-      elif char == "3":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*9, tile_wdt*4, tile_wdt, tile_wdt))
-      elif char == "4":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*13, tile_wdt*5, tile_wdt, tile_wdt))
-      elif char == "5":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*10, tile_wdt*5, tile_wdt, tile_wdt))
-      elif char == "6":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*7, tile_wdt*3, tile_wdt, tile_wdt))
-      elif char == "7":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*9, tile_wdt*5, tile_wdt, tile_wdt))
-      elif char == "8":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*6, tile_wdt*3, tile_wdt, tile_wdt))
       elif char == "9":
         screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*8, tile_wdt*5, tile_wdt, tile_wdt))
 
