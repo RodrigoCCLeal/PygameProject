@@ -1,24 +1,21 @@
 import pygame
-hero_animation_frame = 0
-hero_start_frame = 0
-hero_pos_x = 1000
-hero_pos_y = 425
-hero_anim_time = 0
-part_animation_frame = 0
-part_start_frame = 0
-part_pos_x = 400
-part_pos_y = 425
-part_anim_time = 0
+p1_animation_frame = 0
+p1_start_frame = 0
+p1_pos_x = 1000
+p1_pos_y = 425
+p1_anim_time = 0
+p2_animation_frame = 0
+p2_start_frame = 0
+p2_pos_x = 400
+p2_pos_y = 425
+p2_anim_time = 0
 width = 24 * 60
 height = 24 * 40
 velH = 0.1
 velP = 0.1
 mapa = []
 lColliders = []
-lAguaCol = []
-apl_posX = 250
-apl_posY = 250
-    
+lAguaCol = []    
 
 def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     global mapa
@@ -28,25 +25,21 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     file.close()
 
 def load():
-    global clock, playerChar, tileset, tile_wdt, clock, spt_hgt,spt_wdt, partChar,part_wdt,part_hgt
-    global collider_hero, collider_part, apple, apl_wdt, apl_hgt
+    global clock, p1CharAnim, tileset, tile_wdt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon
+    global collider_p1, collider_p2
     clock = pygame.time.Clock() 
     load_mapa("mapa.txt")
     tileset = pygame.image.load("tilesetMD.png")
-    playerChar = pygame.image.load("Mudkip-Idle-Anim.png")
-    partChar = pygame.image.load("Chimchar-Idle-Anim.png")
-    apple = pygame.image.load("Apple.png")
+
+    mudkip = {"idle":{"spriteSheet": pygame.image.load("Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 }}
+    chimchar = {"idle":{"spriteSheet": pygame.image.load("Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "strike":{"spriteSheet": pygame.image.load("Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }}
+    
+    p1Mon = mudkip
+    p2Mon = chimchar
+    p1CharAnim = p1Mon["idle"]
+    p2CharAnim = p2Mon["idle"]
     
     tile_wdt = tileset.get_width()/16
-
-    spt_wdt = playerChar.get_width()/7
-    spt_hgt = playerChar.get_height()/8
-    part_wdt = partChar.get_width()/5
-    part_hgt = partChar.get_width()/8
-
-    apl_wdt = apple.get_width()
-    apl_hgt = apple.get_height()
-
 
     for (x,l) in enumerate(mapa):
         for (y,c) in enumerate(l):
@@ -60,107 +53,136 @@ def load():
 
 
 def update(dt):
-    global hero_animation_frame, hero_start_frame, hero_pos_x, hero_pos_y, hero_anim_time, collider_hero
-    global part_animation_frame, part_start_frame, part_pos_y, part_pos_x, part_anim_time, collider_part
-    global apl_posY, apl_posX
+    global p1_animation_frame, p1_start_frame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt
+    global p2_animation_frame, p2_start_frame, p2_pos_y, p2_pos_x, p2_anim_time, collider_p2, p2CharAnim, p2Mon, p2_wdt, p2_hgt
     keys = pygame.key.get_pressed()
 
-    old_hero_x, old_hero_y = hero_pos_x, hero_pos_y
-    old_part_x, old_part_y = part_pos_x, part_pos_y
+    
+    old_p1_x, old_p1_y = p1_pos_x, p1_pos_y
+    old_p2_x, old_p2_y = p2_pos_x, p2_pos_y
 
-    #Move Heroi
+    #Move p1i
     if keys[pygame.K_UP] and keys[pygame.K_LEFT]:
-        hero_start_frame = 5
-        hero_pos_y = hero_pos_y - (velH * dt)
-        hero_pos_x = hero_pos_x - (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 5
+        p1_pos_y = p1_pos_y - (velH * dt)
+        p1_pos_x = p1_pos_x - (velH * dt)
     elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
-        hero_start_frame = 7
-        hero_pos_y = hero_pos_y + (velH * dt)
-        hero_pos_x = hero_pos_x - (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 7
+        p1_pos_y = p1_pos_y + (velH * dt)
+        p1_pos_x = p1_pos_x - (velH * dt)
     elif keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
-        hero_start_frame = 3
-        hero_pos_y = hero_pos_y - (velH * dt)
-        hero_pos_x = hero_pos_x + (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 3
+        p1_pos_y = p1_pos_y - (velH * dt)
+        p1_pos_x = p1_pos_x + (velH * dt)
     elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
-        hero_start_frame = 1
-        hero_pos_y = hero_pos_y + (velH * dt)
-        hero_pos_x = hero_pos_x + (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 1
+        p1_pos_y = p1_pos_y + (velH * dt)
+        p1_pos_x = p1_pos_x + (velH * dt)
     elif keys[pygame.K_RIGHT]:
-        hero_start_frame = 2
-        hero_pos_x = hero_pos_x + (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 2
+        p1_pos_x = p1_pos_x + (velH * dt)
     elif keys[pygame.K_LEFT]:
-        hero_start_frame = 6
-        hero_pos_x = hero_pos_x - (velH * dt) 
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 6
+        p1_pos_x = p1_pos_x - (velH * dt) 
     elif keys[pygame.K_UP]:
-        hero_start_frame = 4
-        hero_pos_y = hero_pos_y - (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 4
+        p1_pos_y = p1_pos_y - (velH * dt)
     elif keys[pygame.K_DOWN]:
-        hero_start_frame = 0
-        hero_pos_y = hero_pos_y + (velH * dt)
+        p1CharAnim = p1Mon["walk"]
+        p1_start_frame = 0
+        p1_pos_y = p1_pos_y + (velH * dt)
+    elif p1_animation_frame == 0:
+        p1CharAnim = p1Mon["idle"]
+
 
     #Move Parceiro
     if keys[pygame.K_w] and keys[pygame.K_a]:
-        part_start_frame = 5
-        part_pos_y = part_pos_y - (velP * dt)
-        part_pos_x = part_pos_x - (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 5
+        p2_pos_y = p2_pos_y - (velP * dt)
+        p2_pos_x = p2_pos_x - (velP * dt)
     elif keys[pygame.K_s] and keys[pygame.K_a]:
-        part_start_frame = 7
-        part_pos_y = part_pos_y + (velP * dt)
-        part_pos_x = part_pos_x - (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 7
+        p2_pos_y = p2_pos_y + (velP * dt)
+        p2_pos_x = p2_pos_x - (velP * dt)
     elif keys[pygame.K_w] and keys[pygame.K_d]:
-        part_start_frame = 3
-        part_pos_y = part_pos_y - (velP * dt)
-        part_pos_x = part_pos_x + (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 3
+        p2_pos_y = p2_pos_y - (velP * dt)
+        p2_pos_x = p2_pos_x + (velP * dt)
     elif keys[pygame.K_s] and keys[pygame.K_d]:
-        part_start_frame = 1
-        part_pos_y = part_pos_y + (velP * dt)
-        part_pos_x = part_pos_x + (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 1
+        p2_pos_y = p2_pos_y + (velP * dt)
+        p2_pos_x = p2_pos_x + (velP * dt)
     elif keys[pygame.K_d]:
-        part_start_frame = 2
-        part_pos_x = part_pos_x + (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 2
+        p2_pos_x = p2_pos_x + (velP * dt)
     elif keys[pygame.K_a]:
-        part_start_frame = 6
-        part_pos_x = part_pos_x - (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 6
+        p2_pos_x = p2_pos_x - (velP * dt)
     elif keys[pygame.K_w]:
-        part_start_frame = 4
-        part_pos_y = part_pos_y - (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 4
+        p2_pos_y = p2_pos_y - (velP * dt)
     elif keys[pygame.K_s]:
-        part_start_frame = 0
-        part_pos_y = part_pos_y + (velP * dt)
+        p2CharAnim = p2Mon["walk"]
+        p2_start_frame = 0
+        p2_pos_y = p2_pos_y + (velP * dt)
+    elif keys[pygame.K_z]:
+        p2CharAnim = p2Mon["strike"]
+    elif p2_animation_frame == 0:
+        p2CharAnim = p2Mon["idle"]
          
-    apl_posX += 1
-    apl_posY += 1
 
     #Animação
-    hero_anim_time = hero_anim_time + dt 
-    if hero_anim_time > 100: 
-        hero_animation_frame = hero_animation_frame + 1 
-        if hero_animation_frame > 6: 
-            hero_animation_frame = 0
-        hero_anim_time = 0 
+    p1_anim_time = p1_anim_time + dt 
+    if p1_anim_time > p1CharAnim["animTime"]: 
+        p1_animation_frame = p1_animation_frame + 1 
+        if p1_animation_frame > p1CharAnim["frameReset"]: 
+            p1_animation_frame = 0
+        p1_anim_time = 0 
 
-    part_anim_time = part_anim_time + dt 
-    if part_anim_time > 100: 
-        part_animation_frame = part_animation_frame + 1 
-        if part_animation_frame > 4: 
-            part_animation_frame = 0
-        part_anim_time = 0
+    p2_anim_time = p2_anim_time + dt 
+    if p2_anim_time > p2CharAnim["animTime"]: 
+        p2_animation_frame = p2_animation_frame + 1 
+        if p2_animation_frame > p2CharAnim["frameReset"]: 
+            p2_animation_frame = 0
+        p2_anim_time = 0
 
+    # Altura e Largura das Sprites
+    p1_wdt = p1CharAnim["spriteSheet"].get_width()/(p1CharAnim["largura"])
+    p1_hgt = p1CharAnim["spriteSheet"].get_height()/(p1CharAnim["altura"])
+    p2_wdt = p2CharAnim["spriteSheet"].get_width()/(p2CharAnim["largura"])
+    p2_hgt = p2CharAnim["spriteSheet"].get_height()/(p2CharAnim["altura"])
 
     # Colisão
-    collider_hero = pygame.Rect(hero_pos_x, hero_pos_y, 24, 24)
-    collider_part = pygame.Rect(part_pos_x, part_pos_y, 24, 24)
+    collider_p1 = pygame.Rect(p1_pos_x-(p1_wdt//2), p1_pos_y-(p1_hgt//2), p1_wdt, p1_hgt)
+    collider_p2 = pygame.Rect(p2_pos_x-(p2_wdt//2), p2_pos_y-(p2_hgt//2), p2_wdt, p2_hgt)
     
-    if collider_hero.collidelist(lColliders) >= 0:
-        hero_pos_x = old_hero_x
-        hero_pos_y = old_hero_y
+    if collider_p1.collidelist(lColliders) >= 0:
+        p1_pos_x = old_p1_x
+        p1_pos_y = old_p1_y
         
-    if collider_part.collidelist(lColliders) >= 0:
-        part_pos_x = old_part_x
-        part_pos_y = old_part_y
-    elif collider_part.collidelist(lAguaCol) >= 0:
-        part_pos_x = old_part_x
-        part_pos_y = old_part_y
+    if collider_p2.collidelist(lColliders) >= 0:
+        p2_pos_x = old_p2_x
+        p2_pos_y = old_p2_y
+    elif collider_p2.collidelist(lAguaCol) >= 0:
+        p2_pos_x = old_p2_x
+        p2_pos_y = old_p2_y
+    
+    
+
 
 
     
@@ -181,11 +203,10 @@ def draw_screen(screen):
 
 
     #Desenha personagens      
-    screen.blit(playerChar,(hero_pos_x, hero_pos_y),(spt_wdt * hero_animation_frame, hero_start_frame*spt_hgt, spt_wdt,spt_hgt))
-    screen.blit(partChar,(part_pos_x, part_pos_y),(part_wdt * part_animation_frame, part_start_frame*spt_hgt, spt_wdt,spt_hgt))
+    screen.blit(p1CharAnim["spriteSheet"],(p1_pos_x-(p1_wdt//2), p1_pos_y-(p1_hgt//2)),(p1_animation_frame*p1_wdt, p1_start_frame*p1_hgt, p1_wdt,p1_hgt))
+    screen.blit(p2CharAnim["spriteSheet"],(p2_pos_x-(p2_wdt//2), p2_pos_y-(p2_hgt//2)),(p2_animation_frame*p2_wdt, p2_start_frame*p2_hgt, p2_wdt,p2_hgt))
 
-    #Desenha objetos
-    screen.blit(apple,(apl_posX,apl_posY),(apl_wdt, apl_hgt, apl_wdt, apl_hgt))
+
 
   
 
