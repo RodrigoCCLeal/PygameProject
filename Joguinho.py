@@ -16,6 +16,8 @@ velP = 0.1
 mapa = []
 lColliders = []
 lAguaCol = []
+apl_posX = 250
+apl_posY = 250
     
 
 def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
@@ -27,18 +29,23 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
 
 def load():
     global clock, playerChar, tileset, tile_wdt, clock, spt_hgt,spt_wdt, partChar,part_wdt,part_hgt
-    global collider_hero, collider_part
+    global collider_hero, collider_part, apple, apl_wdt, apl_hgt
     clock = pygame.time.Clock() 
     load_mapa("mapa.txt")
     tileset = pygame.image.load("tilesetMD.png")
     playerChar = pygame.image.load("Mudkip-Idle-Anim.png")
     partChar = pygame.image.load("Chimchar-Idle-Anim.png")
+    apple = pygame.image.load("Apple.png")
+    
     tile_wdt = tileset.get_width()/16
 
     spt_wdt = playerChar.get_width()/7
     spt_hgt = playerChar.get_height()/8
     part_wdt = partChar.get_width()/5
     part_hgt = partChar.get_width()/8
+
+    apl_wdt = apple.get_width()
+    apl_hgt = apple.get_height()
 
 
     for (x,l) in enumerate(mapa):
@@ -55,92 +62,74 @@ def load():
 def update(dt):
     global hero_animation_frame, hero_start_frame, hero_pos_x, hero_pos_y, hero_anim_time, collider_hero
     global part_animation_frame, part_start_frame, part_pos_y, part_pos_x, part_anim_time, collider_part
+    global apl_posY, apl_posX
     keys = pygame.key.get_pressed()
 
     old_hero_x, old_hero_y = hero_pos_x, hero_pos_y
     old_part_x, old_part_y = part_pos_x, part_pos_y
 
-    #Move Mudkip
+    #Move Heroi
     if keys[pygame.K_UP] and keys[pygame.K_LEFT]:
         hero_start_frame = 5
         hero_pos_y = hero_pos_y - (velH * dt)
         hero_pos_x = hero_pos_x - (velH * dt)
-
     elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
         hero_start_frame = 7
         hero_pos_y = hero_pos_y + (velH * dt)
         hero_pos_x = hero_pos_x - (velH * dt)
-    
     elif keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
         hero_start_frame = 3
         hero_pos_y = hero_pos_y - (velH * dt)
         hero_pos_x = hero_pos_x + (velH * dt)
-
     elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
         hero_start_frame = 1
         hero_pos_y = hero_pos_y + (velH * dt)
         hero_pos_x = hero_pos_x + (velH * dt)
-    
     elif keys[pygame.K_RIGHT]:
         hero_start_frame = 2
         hero_pos_x = hero_pos_x + (velH * dt)
-
     elif keys[pygame.K_LEFT]:
         hero_start_frame = 6
-        hero_pos_x = hero_pos_x - (velH * dt)
-    
+        hero_pos_x = hero_pos_x - (velH * dt) 
     elif keys[pygame.K_UP]:
         hero_start_frame = 4
         hero_pos_y = hero_pos_y - (velH * dt)
-
     elif keys[pygame.K_DOWN]:
         hero_start_frame = 0
         hero_pos_y = hero_pos_y + (velH * dt)
 
-    #Move Chimchar
+    #Move Parceiro
     if keys[pygame.K_w] and keys[pygame.K_a]:
         part_start_frame = 5
         part_pos_y = part_pos_y - (velP * dt)
         part_pos_x = part_pos_x - (velP * dt)
-         
-
     elif keys[pygame.K_s] and keys[pygame.K_a]:
         part_start_frame = 7
         part_pos_y = part_pos_y + (velP * dt)
         part_pos_x = part_pos_x - (velP * dt)
-         
-    
     elif keys[pygame.K_w] and keys[pygame.K_d]:
         part_start_frame = 3
         part_pos_y = part_pos_y - (velP * dt)
         part_pos_x = part_pos_x + (velP * dt)
-         
-
     elif keys[pygame.K_s] and keys[pygame.K_d]:
         part_start_frame = 1
         part_pos_y = part_pos_y + (velP * dt)
         part_pos_x = part_pos_x + (velP * dt)
-         
-    
     elif keys[pygame.K_d]:
         part_start_frame = 2
         part_pos_x = part_pos_x + (velP * dt)
-         
-
     elif keys[pygame.K_a]:
         part_start_frame = 6
         part_pos_x = part_pos_x - (velP * dt)
-         
-    
     elif keys[pygame.K_w]:
         part_start_frame = 4
         part_pos_y = part_pos_y - (velP * dt)
-         
-
     elif keys[pygame.K_s]:
         part_start_frame = 0
         part_pos_y = part_pos_y + (velP * dt)
          
+    apl_posX += 1
+    apl_posY += 1
 
     #Animação
     hero_anim_time = hero_anim_time + dt 
@@ -177,22 +166,27 @@ def update(dt):
     
 
 def draw_screen(screen):
-  
-  # Mapa
-  for i, linha in enumerate(mapa):
-    for j, char in enumerate(linha):
-      if char == "W":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*2, tile_wdt*0, tile_wdt, tile_wdt))
-      elif char == "A":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*11, tile_wdt, tile_wdt, tile_wdt))
-      elif char == "B":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*2, tile_wdt, tile_wdt, tile_wdt))
-      elif char == "9":
-        screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*8, tile_wdt*5, tile_wdt, tile_wdt))
 
-  #Desenha personagens      
-  screen.blit(playerChar,(hero_pos_x, hero_pos_y),(spt_wdt * hero_animation_frame, hero_start_frame*spt_hgt, spt_wdt,spt_hgt))
-  screen.blit(partChar,(part_pos_x, part_pos_y),(part_wdt * part_animation_frame, part_start_frame*spt_hgt, spt_wdt,spt_hgt))
+    # Mapa
+    for i, linha in enumerate(mapa):
+        for j, char in enumerate(linha):
+            if char == "W":
+                screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*2, tile_wdt*0, tile_wdt, tile_wdt))
+            elif char == "A":
+                screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*11, tile_wdt, tile_wdt, tile_wdt))
+            elif char == "B":
+                screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*2, tile_wdt, tile_wdt, tile_wdt))
+            elif char == "9":
+                screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*8, tile_wdt*5, tile_wdt, tile_wdt))
+
+
+    #Desenha personagens      
+    screen.blit(playerChar,(hero_pos_x, hero_pos_y),(spt_wdt * hero_animation_frame, hero_start_frame*spt_hgt, spt_wdt,spt_hgt))
+    screen.blit(partChar,(part_pos_x, part_pos_y),(part_wdt * part_animation_frame, part_start_frame*spt_hgt, spt_wdt,spt_hgt))
+
+    #Desenha objetos
+    screen.blit(apple,(apl_posX,apl_posY),(apl_wdt, apl_hgt, apl_wdt, apl_hgt))
+
   
 
 # Pygame
