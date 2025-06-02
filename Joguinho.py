@@ -13,6 +13,9 @@ width = 24 * 60
 height = 24 * 40
 velH = 0.1
 velP = 0.1
+cont = 0
+minutos = 0
+segundos = 0
 mapa = []
 lColliders = []
 lAguaCol = []    
@@ -25,14 +28,15 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     file.close()
 
 def load():
-    global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon
+    global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon, font
     global collider_p1, collider_p2
-    clock = pygame.time.Clock() 
-    load_mapa("mapa.txt")
-    tileset = pygame.image.load("tilesetMD.png")
 
-    mudkip = {"idle":{"spriteSheet": pygame.image.load("Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 }}
-    chimchar = {"idle":{"spriteSheet": pygame.image.load("Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "strike":{"spriteSheet": pygame.image.load("Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }}
+    clock = pygame.time.Clock() 
+    load_mapa("mapas\mapadesenhado.txt")
+    tileset = pygame.image.load("mapas\meadowTileset.png")
+
+    mudkip = {"idle":{"spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 }}
+    chimchar = {"idle":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "strike":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }}
     
     p1Mon = mudkip
     p2Mon = chimchar
@@ -41,6 +45,8 @@ def load():
     
     tile_wdt = tileset.get_width()/16
     tile_hgt = tileset.get_height()/25
+
+    font = pygame.font.Font("PKMN-Mystery-Dungeon.ttf", 100)
 
     for (y,l) in enumerate(mapa):
         for (x,c) in enumerate(l):
@@ -55,8 +61,17 @@ def load():
 def update(dt):
     global p1_animation_frame, p1_start_frame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt
     global p2_animation_frame, p2_start_frame, p2_pos_y, p2_pos_x, p2_anim_time, collider_p2, p2CharAnim, p2Mon, p2_wdt, p2_hgt
+    global minutos, segundos, cont
+
     keys = pygame.key.get_pressed()
 
+    cont = cont + dt
+    if cont >= 1000:
+        segundos += 1
+        cont = 0
+        if segundos >= 60:
+            minutos += 1
+            segundos = 0
     
     old_p1_x, old_p1_y = p1_pos_x, p1_pos_y
     old_p2_x, old_p2_y = p2_pos_x, p2_pos_y
@@ -200,11 +215,24 @@ def draw_screen(screen):
                 screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*2, tile_wdt, tile_wdt, tile_wdt))
             elif char == "9":
                 screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*8, tile_wdt*5, tile_wdt, tile_wdt))
+            elif char == "V":
+                screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*0, tile_wdt*0, tile_wdt, tile_wdt))
 
 
     #Desenha personagens      
     screen.blit(p1CharAnim["spriteSheet"],(p1_pos_x-(p1_wdt//2), p1_pos_y-(p1_hgt//2)),(p1_animation_frame*p1_wdt, p1_start_frame*p1_hgt, p1_wdt,p1_hgt))
     screen.blit(p2CharAnim["spriteSheet"],(p2_pos_x-(p2_wdt//2), p2_pos_y-(p2_hgt//2)),(p2_animation_frame*p2_wdt, p2_start_frame*p2_hgt, p2_wdt,p2_hgt))
+
+    #Timer
+    if minutos < 10 and segundos < 10:
+        cronometro = font.render("0%d:0%d"%(minutos,segundos), "False", "cyan")
+    elif segundos < 10:
+        cronometro = font.render("%d:0%d"%(minutos,segundos), "False", "cyan")
+    elif minutos < 10:
+        cronometro = font.render("0%d:%d"%(minutos,segundos), "False", "cyan")
+    
+    screen.blit(cronometro, cronometro.get_rect(top=0, left=0))
+
 
 
 
