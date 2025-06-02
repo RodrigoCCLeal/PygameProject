@@ -1,4 +1,5 @@
 import pygame
+import random
 p1_animation_frame = 0
 p1_start_frame = 0
 p1_pos_x = 1000
@@ -18,7 +19,11 @@ minutos = 0
 segundos = 0
 mapa = []
 lColliders = []
-lAguaCol = []    
+lAguaCol = []
+timerItem = 0
+lMacaCol = []
+pontP1 = 0
+pontP2 = 0
 
 def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     global mapa
@@ -29,7 +34,7 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
 
 def load():
     global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon, font
-    global collider_p1, collider_p2
+    global collider_p1, collider_p2, maca, item_wdt, item_hgt
 
     clock = pygame.time.Clock() 
     load_mapa("mapas\mapadesenhado.txt")
@@ -48,6 +53,10 @@ def load():
 
     font = pygame.font.Font("PKMN-Mystery-Dungeon.ttf", 100)
 
+    maca = pygame.image.load("objects\Apple.png")
+    item_wdt = maca.get_width()
+    item_hgt = maca.get_height()
+
     for (y,l) in enumerate(mapa):
         for (x,c) in enumerate(l):
             parede = pygame.Rect(x*tile_wdt, y*tile_hgt, tile_wdt, tile_hgt)            
@@ -61,7 +70,7 @@ def load():
 def update(dt):
     global p1_animation_frame, p1_start_frame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt
     global p2_animation_frame, p2_start_frame, p2_pos_y, p2_pos_x, p2_anim_time, collider_p2, p2CharAnim, p2Mon, p2_wdt, p2_hgt
-    global minutos, segundos, cont
+    global minutos, segundos, cont, timerItem, pontP1, pontP2, cronometro, pontosP1, pontosP2
 
     keys = pygame.key.get_pressed()
 
@@ -181,6 +190,25 @@ def update(dt):
     p2_wdt = p2CharAnim["spriteSheet"].get_width()/(p2CharAnim["largura"])
     p2_hgt = p2CharAnim["spriteSheet"].get_height()/(p2CharAnim["altura"])
 
+    #Timer
+    if minutos < 10 and segundos < 10:
+        cronometro = font.render("0%d:0%d"%(minutos,segundos), "False", "cyan")
+    elif segundos < 10:
+        cronometro = font.render("%d:0%d"%(minutos,segundos), "False", "cyan")
+    elif minutos < 10:
+        cronometro = font.render("0%d:%d"%(minutos,segundos), "False", "cyan")
+    
+    pontosP1 = font.render("%d"%pontP1, "False", "cyan")
+    pontosP2 = font.render("%d"%pontP2, "False", "cyan")
+
+    #Criando maçãs
+    timerItem += dt
+    if timerItem > 3000:
+        item = pygame.Rect(random.randint(72,1368), random.randint(72,888), item_wdt, item_hgt)
+        lMacaCol.append(item)
+        timerItem = 0
+
+
     # Colisão
     collider_p1 = pygame.Rect(p1_pos_x-(p1_wdt//2), p1_pos_y-(p1_hgt//2), p1_wdt, p1_hgt)
     collider_p2 = pygame.Rect(p2_pos_x-(p2_wdt//2), p2_pos_y-(p2_hgt//2), p2_wdt, p2_hgt)
@@ -188,6 +216,9 @@ def update(dt):
     if collider_p1.collidelist(lColliders) >= 0:
         p1_pos_x = old_p1_x
         p1_pos_y = old_p1_y
+    elif collider_p1.collidelist(lMacaCol) >= 0:
+        pontP1 += 1
+        lMacaCol.remove(lMacaCol[collider_p1.collidelist(lMacaCol)])
         
     if collider_p2.collidelist(lColliders) >= 0:
         p2_pos_x = old_p2_x
@@ -195,7 +226,9 @@ def update(dt):
     elif collider_p2.collidelist(lAguaCol) >= 0:
         p2_pos_x = old_p2_x
         p2_pos_y = old_p2_y
-    
+    elif collider_p2.collidelist(lMacaCol) >= 0:
+        pontP2 += 1
+        lMacaCol.remove(lMacaCol[collider_p2.collidelist(lMacaCol)])
     
 
 
@@ -223,15 +256,17 @@ def draw_screen(screen):
     screen.blit(p1CharAnim["spriteSheet"],(p1_pos_x-(p1_wdt//2), p1_pos_y-(p1_hgt//2)),(p1_animation_frame*p1_wdt, p1_start_frame*p1_hgt, p1_wdt,p1_hgt))
     screen.blit(p2CharAnim["spriteSheet"],(p2_pos_x-(p2_wdt//2), p2_pos_y-(p2_hgt//2)),(p2_animation_frame*p2_wdt, p2_start_frame*p2_hgt, p2_wdt,p2_hgt))
 
-    #Timer
-    if minutos < 10 and segundos < 10:
-        cronometro = font.render("0%d:0%d"%(minutos,segundos), "False", "cyan")
-    elif segundos < 10:
-        cronometro = font.render("%d:0%d"%(minutos,segundos), "False", "cyan")
-    elif minutos < 10:
-        cronometro = font.render("0%d:%d"%(minutos,segundos), "False", "cyan")
+
+
+    #Desenha objetos
+    for i in lMacaCol:
+        screen.blit(maca,(i.left, i.top),(0, 0, item_wdt, item_hgt))
     
+
+    #Desenha contadores
     screen.blit(cronometro, cronometro.get_rect(top=0, left=0))
+    screen.blit(pontosP1, pontosP1.get_rect(top=0, left=400))
+    screen.blit(pontosP2, pontosP2.get_rect(top=0, left=300))
 
 
 
