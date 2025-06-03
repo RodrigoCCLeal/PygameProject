@@ -14,8 +14,9 @@ width = 24 * 60
 height = 24 * 40
 velH = 0.1
 velP = 0.1
+tempoRestante = 180000
 cont = 0
-minutos = 0
+minutos = 3
 segundos = 0
 mapa = []
 lColliders = []
@@ -34,14 +35,15 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
 
 def load():
     global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon, font
-    global collider_p1, collider_p2, maca, item_wdt, item_hgt
+    global collider_p1, collider_p2, maca, item_wdt, item_hgt, tempoRestante, port1_wdt, port1_hgt, port2_wdt, port2_hgt
 
     clock = pygame.time.Clock() 
     load_mapa("mapas\mapadesenhado.txt")
     tileset = pygame.image.load("mapas\meadowTileset.png")
 
-    mudkip = {"idle":{"spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 }}
-    chimchar = {"idle":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "strike":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }}
+    mudkip = {"idle":{"spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\mudkip\Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons\mudkip\mudkip_portrait.png"), "largura": 5, "altura": 8}}
+    chimchar = {"idle":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
+                "strike":{"spriteSheet": pygame.image.load("spritesMons\chimchar\Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons\chimchar\chimchar_portrait.png"), "largura": 5, "altura": 8}}
     
     p1Mon = mudkip
     p2Mon = chimchar
@@ -50,8 +52,14 @@ def load():
     
     tile_wdt = tileset.get_width()/16
     tile_hgt = tileset.get_height()/25
+    
+    port1_wdt = p1Mon["portrait"]["spriteSheet"].get_width()/p1Mon["portrait"]["largura"]
+    port1_hgt = p1Mon["portrait"]["spriteSheet"].get_height()/p1Mon["portrait"]["altura"]
 
-    font = pygame.font.Font("PKMN-Mystery-Dungeon.ttf", 100)
+    port2_wdt = p2Mon["portrait"]["spriteSheet"].get_width()/p2Mon["portrait"]["largura"]
+    port2_hgt = p2Mon["portrait"]["spriteSheet"].get_height()/p2Mon["portrait"]["altura"]
+
+    font = pygame.font.Font("PKMN-Mystery-Dungeon.ttf", 75)
 
     maca = pygame.image.load("objects\Apple.png")
     item_wdt = maca.get_width()
@@ -64,28 +72,34 @@ def load():
                lColliders.append(parede)
             elif c == "9":
                 lAguaCol.append(parede)
+
+
         
 
 
 def update(dt):
-    global p1_animation_frame, p1_start_frame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt
-    global p2_animation_frame, p2_start_frame, p2_pos_y, p2_pos_x, p2_anim_time, collider_p2, p2CharAnim, p2Mon, p2_wdt, p2_hgt
-    global minutos, segundos, cont, timerItem, pontP1, pontP2, cronometro, pontosP1, pontosP2
-
+    global p1_animation_frame, p1_start_frame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt, p1PortraitFrame
+    global p2_animation_frame, p2_start_frame, p2_pos_y, p2_pos_x, p2_anim_time, collider_p2, p2CharAnim, p2Mon, p2_wdt, p2_hgt, p2PortraitFrame
+    global minutos, segundos, cont, timerItem, pontP1, pontP2, cronometro, pontosP1, pontosP2, tempoRestante, tempoPercent
     keys = pygame.key.get_pressed()
 
+    tempoRestante -= dt
+    tempoPercent = tempoRestante/1800
     cont = cont + dt
     if cont >= 1000:
-        segundos += 1
         cont = 0
-        if segundos >= 60:
-            minutos += 1
-            segundos = 0
+        if segundos == 0:
+            minutos -= 1
+            segundos = 60
+        segundos -= 1
     
     old_p1_x, old_p1_y = p1_pos_x, p1_pos_y
     old_p2_x, old_p2_y = p2_pos_x, p2_pos_y
 
-    #Move p1i
+    p1PortraitFrame = 0
+    p2PortraitFrame = 0
+
+    #Move P1
     if keys[pygame.K_UP] and keys[pygame.K_LEFT]:
         p1CharAnim = p1Mon["walk"]
         p1_start_frame = 5
@@ -192,18 +206,19 @@ def update(dt):
 
     #Timer
     if minutos < 10 and segundos < 10:
-        cronometro = font.render("0%d:0%d"%(minutos,segundos), "False", "cyan")
+        cronometro = font.render("0%d:0%d"%(minutos,segundos), "False", "white")
     elif segundos < 10:
-        cronometro = font.render("%d:0%d"%(minutos,segundos), "False", "cyan")
+        cronometro = font.render("%d:0%d"%(minutos,segundos), "False", "white")
     elif minutos < 10:
-        cronometro = font.render("0%d:%d"%(minutos,segundos), "False", "cyan")
+        cronometro = font.render("0%d:%d"%(minutos,segundos), "False", "white")
     
-    pontosP1 = font.render("%d"%pontP1, "False", "cyan")
-    pontosP2 = font.render("%d"%pontP2, "False", "cyan")
+    #Pontuações
+    pontosP1 = font.render("%d"%pontP1, "False", "blue")
+    pontosP2 = font.render("%d"%pontP2, "False", "orange")
 
     #Criando maçãs
     timerItem += dt
-    if timerItem > 3000:
+    if timerItem > 2000:
         item = pygame.Rect(random.randint(72,1368), random.randint(72,888), item_wdt, item_hgt)
         lMacaCol.append(item)
         timerItem = 0
@@ -264,7 +279,15 @@ def draw_screen(screen):
     
 
     #Desenha contadores
-    screen.blit(cronometro, cronometro.get_rect(top=0, left=0))
+    screen.blit(cronometro, cronometro.get_rect(top=0, left=640))
+    pygame.draw.rect(screen, ("black"), (650,450,100,24))
+    if tempoPercent >= 30:
+        pygame.draw.rect(screen, ("pink"), (650,450,tempoPercent,24))
+    else:
+        pygame.draw.rect(screen, ("red"), (650,450,tempoPercent,24))
+
+    #Desenha pontuação
+    screen.blit(p1Mon["portrait"]["spriteSheet"],(200,300),(p1PortraitFrame*port1_wdt, p1PortraitFrame*port1_hgt, port1_wdt,port1_hgt))
     screen.blit(pontosP1, pontosP1.get_rect(top=0, left=400))
     screen.blit(pontosP2, pontosP2.get_rect(top=0, left=300))
 
