@@ -234,6 +234,7 @@ def update(dt):
     elif collider_p1.collidelist(lMacaCol) >= 0:
         pontP1 += 1
         lMacaCol.remove(lMacaCol[collider_p1.collidelist(lMacaCol)])
+        collect_sound.play()
         
     if collider_p2.collidelist(lColliders) >= 0:
         p2_pos_x = old_p2_x
@@ -244,7 +245,7 @@ def update(dt):
     elif collider_p2.collidelist(lMacaCol) >= 0:
         pontP2 += 1
         lMacaCol.remove(lMacaCol[collider_p2.collidelist(lMacaCol)])
-    
+        collect_sound.play()
 
 
 
@@ -301,10 +302,13 @@ def main_loop(screen):
     global clock
     running = True
     while running:
-        for e in pygame.event.get(): 
-            if e.type == pygame.QUIT: # fecha o jogo
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:  # fecha o jogo
                 running = False
                 break
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_z:
+                    punch_sound.play()
 
         # FPS máximo
         clock.tick(60)
@@ -319,6 +323,9 @@ def main_loop(screen):
 
 # Programa principal
 pygame.init()
+pygame.mixer.init()
+collect_sound = pygame.mixer.Sound("collect_apples.mp3")
+punch_sound = pygame.mixer.Sound('punch.mp3')
 screen = pygame.display.set_mode((width, height))
 load()
 main_loop(screen)
