@@ -34,9 +34,11 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     file.close()
 
 def load():
-    global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon, font
-    global collider_p1, collider_p2, maca, item_wdt, item_hgt, tempoRestante, port1_wdt, port1_hgt, port2_wdt, port2_hgt
+    global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon,  p2CharAnim, p2Mon, font, punch_sound
+    global collider_p1, collider_p2, maca, item_wdt, item_hgt, tempoRestante, port1_wdt, port1_hgt, port2_wdt, port2_hgt, collect_sound
 
+    collect_sound = pygame.mixer.Sound("sounds\collect_apples.mp3")
+    punch_sound = pygame.mixer.Sound('sounds\punch.mp3')
     clock = pygame.time.Clock() 
     load_mapa("mapas\mapadesenhado.txt")
     tileset = pygame.image.load("mapas\meadowTileset.png")
@@ -324,8 +326,6 @@ def main_loop(screen):
 # Programa principal
 pygame.init()
 pygame.mixer.init()
-collect_sound = pygame.mixer.Sound("collect_apples.mp3")
-punch_sound = pygame.mixer.Sound('punch.mp3')
 screen = pygame.display.set_mode((width, height))
 load()
 main_loop(screen)
