@@ -347,18 +347,13 @@ def update(dt):
             enemy_pos_y = enemy_pos_y + dt*0.09
             enemy_pos_x = enemy_pos_x + dt*0.09
         elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            p2CharAnim = p2Mon["walk"]
-            p2_directionFrame = 4
-            p2_pos_y = p2_pos_y - (p2Mon["speed"] * dt)
+            enemy_directionFrame = 4
+            enemy_pos_y = enemy_pos_y - dt*0.09
         elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            p2CharAnim = p2Mon["walk"]
-            p2_directionFrame = 0
-            p2_pos_y = p2_pos_y + (p2Mon["speed"] * dt)
-        elif keys[pygame.K_e]:
-            p2CharAnim = p2Mon["strike"]
-            #pygame.mixer.Sound.play(punch_sound)
-        elif p2_animation_frame == 0:
-            p2CharAnim = p2Mon["idle"]
+            enemy_directionFrame = 0
+            enemy_pos_y = enemy_pos_y + dt*0.09
+        elif enemy_animation_frame == 0:
+            enemyCharAnim = enemyMon["idle"]
 
     # Colisão
     collider_p1 = pygame.Rect(p1_pos_x-(p1_wdt//4), p1_pos_y-(p1_hgt//4), p1_wdt*0.5, p1_hgt*0.4)
