@@ -236,7 +236,6 @@ def update(dt):
         p1_pos_y = p1_pos_y + (p1Mon["speed"] * dt)
     elif keys[pygame.K_KP_0]:
         p1CharAnim = p1Mon["attack"]
-        pygame.mixer.Sound.play(punch_sound)
     elif p1_animation_frame == 0:
         p1CharAnim = p1Mon["idle"]
 
@@ -280,7 +279,6 @@ def update(dt):
         p2_pos_y = p2_pos_y + (p2Mon["speed"] * dt)
     elif keys[pygame.K_e]:
         p2CharAnim = p2Mon["attack"]
-        pygame.mixer.Sound.play(punch_sound)
     elif p2_animation_frame == 0:
         p2CharAnim = p2Mon["idle"]
         
@@ -373,9 +371,10 @@ def update(dt):
     if collider_p1.collidelist(lAguaCol) >= 0 and p1Mon["water"]:
         p1_pos_x = old_p1_x
         p1_pos_y = old_p1_y
-    if collider_p1.colliderect(collider_enemy) and p1CharAnim == p1Mon["attack"] and p1_animation_frame == 4:
+    if collider_p1.scale_by(2).colliderect(collider_enemy) and p1CharAnim == p1Mon["attack"] and p1_animation_frame == 4:
         enemyVida -= p1Mon["damage"]
         target = random.choice(lMacaCol)
+        pygame.mixer.Sound.play(punch_sound)
         
     if collider_p2.collidelist(lColliders) >= 0:
         p2_pos_x = old_p2_x
@@ -387,9 +386,10 @@ def update(dt):
     if collider_p2.collidelist(lAguaCol) >= 0 and p2Mon["water"]:
         p2_pos_x = old_p2_x
         p2_pos_y = old_p2_y
-    if collider_p2.colliderect(collider_enemy) and p2CharAnim == p2Mon["attack"] and p2_animation_frame == 4:
+    if collider_p2.scale_by(2).colliderect(collider_enemy) and p2CharAnim == p2Mon["attack"] and p2_animation_frame == 4:
         enemyVida -= p2Mon["damage"]
         target = random.choice(lMacaCol)
+        pygame.mixer.Sound.play(punch_sound)
     
     if collider_enemy.collidelist(lMacaCol) >= 0:
         lMacaCol.remove(lMacaCol[collider_enemy.collidelist(lMacaCol)])
@@ -434,8 +434,6 @@ def draw_screen(screen):
 
     #Desenha contadores
     screen.blit(cronometro, cronometro.get_rect(top=0, left=640))
-
-    
 
     #Desenha pontuação
     screen.blit(p1Mon["portrait"]["spriteSheet"],(1300,7),(p1PortraitFrame*port1_wdt, p1PortraitFrame*port1_hgt, port1_wdt,port1_hgt))
