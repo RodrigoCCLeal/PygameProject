@@ -18,9 +18,9 @@ enemy_pos_y = 480
 enemy_anim_time = 0
 width = 24 * 60
 height = 24 * 40
-tempoRestante = 180000
+tempoRestante = 60000
 cont = 0
-minutos = 3
+minutos = tempoRestante//60000
 segundos = 0
 mapa = []
 lColliders = []
@@ -275,19 +275,37 @@ def load():
     pygame.mixer.music.load("Sons\Pokémon- Mystery Dungeon Red Rescue Team- Tiny Woods- Music - dialga328.mp3")
     pygame.mixer.music.play(-1)
 
-    mudkip = {"nome": "Mudkip", "color": "blue", "speed": 0.1, "water":False, "damage": 2, "idle":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 },
-              "attack":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/mudkip/mudkip_portrait.png"), "largura": 5, "altura": 8}}
-    chimchar = {"nome": "Chimchar", "color": "orange", "speed":0.12, "water":True, "damage": 5, "idle":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
-                "attack":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
-    wiggly = {"nome": "Wigglytuff","color": "pink", "speed": 0.07, "water":True, "damage": 10, "idle":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Idle-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\wigglytuff\Wiggly-Walk-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
-                "attack":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/wigglytuff/wigglytuff_portrait.png"), "largura": 5, "altura": 8}}
+    mudkip = {"nome": "Mudkip", "color": "blue", "speed": 0.1, "water":False, "damage": 3,
+              "idle":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
+              "sleep":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
+              "walk":{ "spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 },
+              "attack":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
+              "portrait": {"spriteSheet": pygame.image.load("spritesMons/mudkip/mudkip_portrait.png"), "largura": 5, "altura": 8}}
+    chimchar = {"nome": "Chimchar", "color": "orange", "speed":0.12, "water":True, "damage": 5,
+                "idle":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 },
+                "sleep":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
+                "walk":{ "spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
+                "attack":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
+                "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
+    wiggly = {"nome": "Wigglytuff","color": "pink", "speed": 0.07, "water":True, "damage": 10,
+              "idle":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Idle-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
+              "sleep":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
+              "walk":{ "spriteSheet": pygame.image.load("spritesMons\wigglytuff\Wiggly-Walk-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
+              "attack":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
+              "portrait": {"spriteSheet": pygame.image.load("spritesMons/wigglytuff/wigglytuff_portrait.png"), "largura": 5, "altura": 8}}
+    chatot = {"nome": "Chatot","color": "white", "speed": 0.15, "water":False, "damage": 1,
+              "idle":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Idle-Anim.png"), "largura": 8, "altura": 8, "frameReset": 7, "animTime": 150 },
+              "sleep":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
+              "walk":{ "spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 150 },
+              "attack":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Attack-Anim.png"), "largura": 14, "altura": 8, "frameReset": 13, "animTime": 50 },
+              "portrait": {"spriteSheet": pygame.image.load("spritesMons/chatot/chatot_portrait.png"), "largura": 5, "altura": 8}}
 
     p1Mon = mudkip
     p2Mon = chimchar
     p1CharAnim = p1Mon["idle"]
     p2CharAnim = p2Mon["idle"]
 
-    enemyMon = wiggly
+    enemyMon = mudkip
     enemyCharAnim = enemyMon["sleep"]
     enemyVida = 50
 
@@ -550,7 +568,8 @@ def update(dt):
         p1_pos_y = old_p1_y
     if collider_p1.scale_by(2).colliderect(collider_enemy) and p1CharAnim == p1Mon["attack"] and p1_animation_frame == 4:
         enemyVida -= p1Mon["damage"]
-        target = random.choice(lMacaCol)
+        if lMacaCol != []:
+            target = random.choice(lMacaCol)
         pygame.mixer.Sound.play(punch_sound)
         
     if collider_p2.collidelist(lColliders) >= 0:
@@ -565,7 +584,8 @@ def update(dt):
         p2_pos_y = old_p2_y
     if collider_p2.scale_by(2).colliderect(collider_enemy) and p2CharAnim == p2Mon["attack"] and p2_animation_frame == 4:
         enemyVida -= p2Mon["damage"]
-        target = random.choice(lMacaCol)
+        if lMacaCol != []:
+            target = random.choice(lMacaCol)
         pygame.mixer.Sound.play(punch_sound)
     
     if collider_enemy.collidelist(lMacaCol) >= 0:
@@ -595,7 +615,7 @@ def draw_screen(screen):
     #Barrinha
     pygame.draw.rect(screen, ("black"), (enemy_pos_x-40,enemy_pos_y+10,80,14))
     if enemyVida >= 30:
-        pygame.draw.rect(screen, ("pink"), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
+        pygame.draw.rect(screen, (enemyMon["color"]), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
     else:
         pygame.draw.rect(screen, ("red"), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
 
