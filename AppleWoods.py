@@ -252,7 +252,7 @@ def load():
     clock = pygame.time.Clock() 
     load_mapa(mapa_arquivo)
     tileset = pygame.image.load("mapas/meadowTileset.png")
-
+    musicas = ["Sons/038 - Monster House!.mp3","Sons/068 - Dialga's Fight to the Finish!.mp3","Sons/029 - Apple Woods.mp3"]
     pygame.mixer.music.load("Sons\Pokémon- Mystery Dungeon Red Rescue Team- Tiny Woods- Music - dialga328.mp3")
     pygame.mixer.music.play(-1)
 
@@ -291,7 +291,7 @@ def load():
               "attack":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Attack-Anim.png"), "largura": 14, "altura": 8, "frameReset": 13, "animTime": 50 },
               "hurt":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
               "portrait": {"spriteSheet": pygame.image.load("spritesMons/chatot/chatot_portrait.png"), "largura": 5, "altura": 8}}
-    inimigos = [chatot, bulbasaur, chatot]
+    inimigos = [chatot, bulbasaur, wiggly]
     p1Mon = mudkip
     p2Mon = chimchar
     p1CharAnim = p1Mon["idle"]
