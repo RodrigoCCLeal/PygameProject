@@ -18,7 +18,7 @@ enemy_pos_y = 480
 enemy_anim_time = 0
 width = 24 * 60
 height = 24 * 40
-tempoRestante = 180
+tempoRestante = 180000
 cont = 0
 minutos = tempoRestante//60000
 segundos = 0
@@ -33,7 +33,9 @@ pontEnemy = 0
 target = "coiso"
 hitstun = 500
 MAP_FILES = {1: r"mapas/mapa1.txt", 2: r"mapas/mapa2.txt", 3: r"mapas/mapa3.txt"}
-
+pygame.display.set_caption("APPLE WOODS")#muda o nome da janela
+icone = pygame.image.load('objects/GoldenApple.png')
+pygame.display.set_icon(icone)
 #telas final e inicial
 clock = pygame.time.Clock() 
 tela_inicio_mudkip_frames = []
