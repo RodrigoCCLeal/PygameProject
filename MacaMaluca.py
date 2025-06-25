@@ -98,12 +98,12 @@ def load():
     pygame.mixer.music.load("Sons\Pokémon- Mystery Dungeon Red Rescue Team- Tiny Woods- Music - dialga328.mp3")
     pygame.mixer.music.play(-1)
 
-    mudkip = {"speed":0.1, "water":False, "idle":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 },
+    mudkip = {"nome": "Mudkip", "color": "blue", "speed": 0.1, "water":False, "damage": 2, "idle":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Idle-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 },
               "attack":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/mudkip/mudkip_portrait.png"), "largura": 5, "altura": 8}}
-    chimchar = {"speed":0.12, "water":True, "idle":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
-                "strike":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
-    wiggly = {"idle":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Idle-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\wigglytuff\Wiggly-Walk-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
+    chimchar = {"nome": "Chimchar", "color": "orange", "speed":0.12, "water":True, "damage": 5, "idle":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
                 "attack":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
+    wiggly = {"nome": "Wigglytuff","color": "pink", "speed": 0.09, "water":True, "damage": 10, "idle":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Idle-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 }, "sleep":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 }, "walk":{ "spriteSheet": pygame.image.load("spritesMons\wigglytuff\Wiggly-Walk-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
+                "attack":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 }, "portrait": {"spriteSheet": pygame.image.load("spritesMons/wigglytuff/wigglytuff_portrait.png"), "largura": 5, "altura": 8}}
 
     p1Mon = mudkip
     p2Mon = chimchar
@@ -139,8 +139,8 @@ def load():
             elif c == "9":
                 lAguaCol.append(parede)
     
-    #collect_sound = pygame.mixer.Sound("Sons\collect_apples.mp3")
-    #punch_sound = pygame.mixer.Sound('Sons\punch.mp3')
+    collect_sound = pygame.mixer.Sound("Sons\collect_apples.mp3")
+    punch_sound = pygame.mixer.Sound('Sons\punch.mp3')
 
 def update(dt):
     global p1_animation_frame, p1_directionFrame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt, p1PortraitFrame
@@ -174,6 +174,28 @@ def update(dt):
 
     p1PortraitFrame = 0
     p2PortraitFrame = 0
+
+    #Animação
+    p1_anim_time = p1_anim_time + dt 
+    if p1_anim_time > p1CharAnim["animTime"]: 
+        p1_animation_frame = p1_animation_frame + 1 
+        if p1_animation_frame > p1CharAnim["frameReset"]: 
+            p1_animation_frame = 0
+        p1_anim_time = 0 
+
+    p2_anim_time = p2_anim_time + dt 
+    if p2_anim_time > p2CharAnim["animTime"]: 
+        p2_animation_frame = p2_animation_frame + 1 
+        if p2_animation_frame > p2CharAnim["frameReset"]: 
+            p2_animation_frame = 0
+        p2_anim_time = 0
+
+    enemy_anim_time = enemy_anim_time + dt 
+    if enemy_anim_time > enemyCharAnim["animTime"]: 
+        enemy_animation_frame = enemy_animation_frame + 1 
+        if enemy_animation_frame > enemyCharAnim["frameReset"]: 
+            enemy_animation_frame = 0
+        enemy_anim_time = 0
 
     #Move P1
     if keys[pygame.K_UP] and keys[pygame.K_LEFT]:
@@ -212,11 +234,11 @@ def update(dt):
         p1CharAnim = p1Mon["walk"]
         p1_directionFrame = 0
         p1_pos_y = p1_pos_y + (p1Mon["speed"] * dt)
-    elif p1_animation_frame == 0:
-        p1CharAnim = p1Mon["idle"]
     elif keys[pygame.K_KP_0]:
         p1CharAnim = p1Mon["attack"]
-        #pygame.mixer.Sound.play(punch_sound)
+        pygame.mixer.Sound.play(punch_sound)
+    elif p1_animation_frame == 0:
+        p1CharAnim = p1Mon["idle"]
 
 
     #Move P2
@@ -257,33 +279,11 @@ def update(dt):
         p2_directionFrame = 0
         p2_pos_y = p2_pos_y + (p2Mon["speed"] * dt)
     elif keys[pygame.K_e]:
-        p2CharAnim = p2Mon["strike"]
-        #pygame.mixer.Sound.play(punch_sound)
+        p2CharAnim = p2Mon["attack"]
+        pygame.mixer.Sound.play(punch_sound)
     elif p2_animation_frame == 0:
         p2CharAnim = p2Mon["idle"]
         
-
-    #Animação
-    p1_anim_time = p1_anim_time + dt 
-    if p1_anim_time > p1CharAnim["animTime"]: 
-        p1_animation_frame = p1_animation_frame + 1 
-        if p1_animation_frame > p1CharAnim["frameReset"]: 
-            p1_animation_frame = 0
-        p1_anim_time = 0 
-
-    p2_anim_time = p2_anim_time + dt 
-    if p2_anim_time > p2CharAnim["animTime"]: 
-        p2_animation_frame = p2_animation_frame + 1 
-        if p2_animation_frame > p2CharAnim["frameReset"]: 
-            p2_animation_frame = 0
-        p2_anim_time = 0
-
-    enemy_anim_time = enemy_anim_time + dt 
-    if enemy_anim_time > enemyCharAnim["animTime"]: 
-        enemy_animation_frame = enemy_animation_frame + 1 
-        if enemy_animation_frame > enemyCharAnim["frameReset"]: 
-            enemy_animation_frame = 0
-        enemy_anim_time = 0
 
     # Altura e Largura das Sprites
     p1_wdt = p1CharAnim["spriteSheet"].get_width()/(p1CharAnim["largura"])
@@ -303,8 +303,8 @@ def update(dt):
         cronometro = font.render("0%d:%d"%(minutos,segundos), False, "white")
 
     #Pontuações
-    pontosP1 = font.render("%d"%pontP1, "False", "blue")
-    pontosP2 = font.render("%d"%pontP2, "False", "orange")
+    pontosP1 = font.render("%d"%pontP1, "False", p1Mon["color"])
+    pontosP2 = font.render("%d"%pontP2, "False", p2Mon["color"])
 
     #Criando maçãs
     timerItem += dt
@@ -317,74 +317,87 @@ def update(dt):
         target = random.choice(lMacaCol)
 
     # Inimigo
+    enemy_center_x = enemy_pos_x-enemy_wdt//2
+    enemy_center_y = enemy_pos_y-enemy_hgt//2
     if enemyCharAnim == enemyMon["sleep"]:
-        enemyVida += dt*0.005
+        enemyVida += dt*0.01
         if enemyVida >= 80:
             enemyCharAnim = enemyMon["walk"]
+        elif enemyVida < 0:
+            enemyVida = 0
     elif enemyCharAnim == enemyMon["walk"]:
-        if (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 2
-            enemy_pos_y = enemy_pos_y + dt*0.09
-            enemy_pos_x = enemy_pos_x + dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 2
-            enemy_pos_y = enemy_pos_y + dt*0.09
-            enemy_pos_x = enemy_pos_x + dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 2
-            enemy_pos_y = enemy_pos_y + dt*0.09
-            enemy_pos_x = enemy_pos_x + dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 2
-            enemy_pos_y = enemy_pos_y + dt*0.09
-            enemy_pos_x = enemy_pos_x + dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 2
-            enemy_pos_y = enemy_pos_y + dt*0.09
-            enemy_pos_x = enemy_pos_x + dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 2
-            enemy_pos_y = enemy_pos_y + dt*0.09
-            enemy_pos_x = enemy_pos_x + dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
-            enemy_directionFrame = 4
-            enemy_pos_y = enemy_pos_y - dt*0.09
-        elif (enemy_pos_x - target.left)<0 and (enemy_pos_y - target.top)<0:
+        if abs(enemy_center_x - target.left)<=1 and (enemy_center_y - target.top)<0:
             enemy_directionFrame = 0
-            enemy_pos_y = enemy_pos_y + dt*0.09
-        elif enemy_animation_frame == 0:
+            enemy_pos_y = enemy_pos_y + dt*enemyMon["speed"]
+        elif abs(enemy_center_x - target.left)<=1 and (enemy_center_y - target.top)>0:
+            enemy_directionFrame = 4
+            enemy_pos_y = enemy_pos_y - dt*enemyMon["speed"]
+        elif (enemy_center_x - target.left)<0 and abs(enemy_center_y - target.top)<=1:
+            enemy_directionFrame = 2
+            enemy_pos_x = enemy_pos_x + dt*enemyMon["speed"]
+        elif (enemy_center_x - target.left)>0 and abs(enemy_center_y - target.top)<=1:
+            enemy_directionFrame = 6
+            enemy_pos_x = enemy_pos_x - dt*enemyMon["speed"]
+        elif (enemy_center_x - target.left)<0 and (enemy_center_y - target.top)<0:
+            enemy_directionFrame = 1
+            enemy_pos_y = enemy_pos_y + dt*enemyMon["speed"]
+            enemy_pos_x = enemy_pos_x + dt*enemyMon["speed"]
+        elif (enemy_center_x - target.left)<0 and (enemy_center_y - target.top)>0:
+            enemy_directionFrame = 3
+            enemy_pos_y = enemy_pos_y - dt*enemyMon["speed"]
+            enemy_pos_x = enemy_pos_x + dt*enemyMon["speed"]
+        elif (enemy_center_x - target.left)>0 and (enemy_center_y - target.top)<0:
+            enemy_directionFrame = 7
+            enemy_pos_y = enemy_pos_y + dt*enemyMon["speed"]
+            enemy_pos_x = enemy_pos_x - dt*enemyMon["speed"]
+        elif (enemy_center_x - target.left)>0 and (enemy_center_y - target.top)>0:
+            enemy_directionFrame = 5
+            enemy_pos_y = enemy_pos_y - dt*enemyMon["speed"]
+            enemy_pos_x = enemy_pos_x - dt*enemyMon["speed"]
+        elif enemy_animation_frame == 0 and lMacaCol == []:
             enemyCharAnim = enemyMon["idle"]
+        
 
     # Colisão
     collider_p1 = pygame.Rect(p1_pos_x-(p1_wdt//4), p1_pos_y-(p1_hgt//4), p1_wdt*0.5, p1_hgt*0.4)
     collider_p2 = pygame.Rect(p2_pos_x-(p2_wdt//4), p2_pos_y-(p2_hgt//4), p2_wdt*0.5, p2_hgt*0.4)
-    collider_enemy = pygame.Rect(enemy_pos_x-(enemy_wdt//4), enemy_pos_y-(enemy_hgt//4), enemy_wdt*0.5, enemy_hgt*0.4)
+    collider_enemy = pygame.Rect(enemy_pos_x-(enemy_wdt//4), enemy_pos_y-(enemy_hgt//4), enemy_wdt*0.8, enemy_hgt*0.8)
 
     if collider_p1.collidelist(lColliders) >= 0:
         p1_pos_x = old_p1_x
         p1_pos_y = old_p1_y
-    elif collider_p1.collidelist(lMacaCol) >= 0:
+    if collider_p1.collidelist(lMacaCol) >= 0:
         pontP1 += 1
         lMacaCol.remove(lMacaCol[collider_p1.collidelist(lMacaCol)])
-        #pygame.mixer.Sound.play(collect_sound)
-    elif collider_p1.collidelist(lAguaCol) >= 0 and p1Mon["water"]:
+        pygame.mixer.Sound.play(collect_sound)
+    if collider_p1.collidelist(lAguaCol) >= 0 and p1Mon["water"]:
         p1_pos_x = old_p1_x
         p1_pos_y = old_p1_y
+    if collider_p1.colliderect(collider_enemy) and p1CharAnim == p1Mon["attack"] and p1_animation_frame == 4:
+        enemyVida -= p1Mon["damage"]
+        target = random.choice(lMacaCol)
         
     if collider_p2.collidelist(lColliders) >= 0:
         p2_pos_x = old_p2_x
         p2_pos_y = old_p2_y
-    elif collider_p2.collidelist(lMacaCol) >= 0:
+    if collider_p2.collidelist(lMacaCol) >= 0:
         pontP2 += 1
         lMacaCol.remove(lMacaCol[collider_p2.collidelist(lMacaCol)])
-        #pygame.mixer.Sound.play(collect_sound)
-    elif collider_p2.collidelist(lAguaCol) >= 0 and p2Mon["water"]:
+        pygame.mixer.Sound.play(collect_sound)
+    if collider_p2.collidelist(lAguaCol) >= 0 and p2Mon["water"]:
         p2_pos_x = old_p2_x
         p2_pos_y = old_p2_y
+    if collider_p2.colliderect(collider_enemy) and p2CharAnim == p2Mon["attack"] and p2_animation_frame == 4:
+        enemyVida -= p2Mon["damage"]
+        target = random.choice(lMacaCol)
     
     if collider_enemy.collidelist(lMacaCol) >= 0:
         lMacaCol.remove(lMacaCol[collider_enemy.collidelist(lMacaCol)])
+        pygame.mixer.Sound.play(collect_sound)
 
+    if enemyVida <= 30:
+        enemy_directionFrame = 0
+        enemyCharAnim = enemyMon["sleep"]
     
 def draw_screen(screen):
 
@@ -402,6 +415,12 @@ def draw_screen(screen):
             elif char == "V":
                 screen.blit(tileset, (j*tile_wdt, i*tile_wdt), (tile_wdt*0, tile_wdt*0, tile_wdt, tile_wdt))
 
+    #Barrinha
+    pygame.draw.rect(screen, ("black"), (enemy_pos_x-40,enemy_pos_y+10,80,14))
+    if enemyVida >= 30:
+        pygame.draw.rect(screen, ("pink"), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
+    else:
+        pygame.draw.rect(screen, ("red"), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
 
     #Desenha personagens      
     screen.blit(p1CharAnim["spriteSheet"],(p1_pos_x-(p1_wdt//2), p1_pos_y-(p1_hgt//2)),(p1_animation_frame*p1_wdt, p1_directionFrame*p1_hgt, p1_wdt,p1_hgt))
@@ -416,12 +435,7 @@ def draw_screen(screen):
     #Desenha contadores
     screen.blit(cronometro, cronometro.get_rect(top=0, left=640))
 
-    #Barrinha
-    pygame.draw.rect(screen, ("black"), (enemy_pos_x-40,enemy_pos_y+10,80,14))
-    if tempoPercent >= 30:
-        pygame.draw.rect(screen, ("pink"), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
-    else:
-        pygame.draw.rect(screen, ("red"), (enemy_pos_x-40,enemy_pos_y+10,enemyVida,14))
+    
 
     #Desenha pontuação
     screen.blit(p1Mon["portrait"]["spriteSheet"],(1300,7),(p1PortraitFrame*port1_wdt, p1PortraitFrame*port1_hgt, port1_wdt,port1_hgt))
@@ -433,8 +447,8 @@ def mostrar_tela_final(tela, score1, score2, largura, altura):
     texto = font_maior.render("Fim de Jogo!", True, (255, 255, 255))
     textoSair = font_menor.render("Aperte SPACE para sair do jogo.", True, (255, 255, 255))
     textoReiniciar = font_menor.render("Aperte R para reiniciar o jogo.", True, (255, 255, 255))
-    score1Texto = font.render(f"Mudkip: {score1} pontos", True, (255, 255, 255))
-    score2Texto = font.render(f"Chimchar: {score2} pontos", True, (255, 255, 255))
+    score1Texto = font.render(f"%s: {score1} pontos" %p1Mon["nome"], True, (255, 255, 255))
+    score2Texto = font.render(f"%s: {score2} pontos" %p2Mon["nome"], True, (255, 255, 255))
 
     tela.fill((0, 0, 0))
     tela.blit(texto, (largura//2 - texto.get_width()//2, altura//5))
@@ -510,4 +524,3 @@ main_loop(screen)
 pygame.quit()
 
 #Debug
-print(lMacaCol)
