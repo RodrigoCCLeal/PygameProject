@@ -253,7 +253,7 @@ def load():
     load_mapa(mapa_arquivo)
     tileset = pygame.image.load("mapas/meadowTileset.png")
     musicas = ["Sons/038 - Monster House!.mp3","Sons/068 - Dialga's Fight to the Finish!.mp3","Sons/029 - Apple Woods.mp3"]
-    pygame.mixer.music.load("Sons\Pokémon- Mystery Dungeon Red Rescue Team- Tiny Woods- Music - dialga328.mp3")
+    pygame.mixer.music.load("%s" %musicas[inimigo])
     pygame.mixer.music.play(-1)
 
     mudkip = {"nome": "Mudkip", "color": "blue", "speed": 0.1, "water":False, "damage": 3,
