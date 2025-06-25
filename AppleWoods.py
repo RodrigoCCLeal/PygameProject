@@ -18,7 +18,7 @@ enemy_pos_y = 480
 enemy_anim_time = 0
 width = 24 * 60
 height = 24 * 40
-tempoRestante = 180000
+tempoRestante = 18000
 cont = 0
 minutos = tempoRestante//60000
 segundos = 0
@@ -169,7 +169,7 @@ def mostrar_tela_final(tela, score1, score2, largura, altura):
     if pontEnemy >= pontP1+pontP2:
         texto = font_maior.render("Derrota!", True, (0, 0, 0))
     else:
-        texto = font_maior.render("Vitória!", True, (0, 0, 0))
+        texto = font_maior.render("Vitoria!", True, (0, 0, 0))
     
     score1Texto = font.render(f"%s: {score1} pontos" %p1Mon["nome"], True, (255, 255, 255))
     score2Texto = font.render(f"%s: {score2} pontos" %p2Mon["nome"], True, (255, 255, 255))
