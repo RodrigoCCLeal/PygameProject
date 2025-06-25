@@ -18,7 +18,7 @@ enemy_pos_y = 480
 enemy_anim_time = 0
 width = 24 * 60
 height = 24 * 40
-tempoRestante = 60000
+tempoRestante = 180000
 cont = 0
 minutos = tempoRestante//60000
 segundos = 0
@@ -29,7 +29,9 @@ timerItem = 0
 lMacaCol = []
 pontP1 = 0
 pontP2 = 0
+pontEnemy = 0
 target = "coiso"
+hitstun = 500
 MAP_FILES = {1: r"mapas/mapa1.txt", 2: r"mapas/mapa2.txt", 3: r"mapas/mapa3.txt"}
 
 #telas final e inicial
@@ -219,6 +221,7 @@ def load_mapa(filename):    #Lê o conteúdo do arquivo para a matriz
     file.close()
 
 def escolher_mapa(screen) -> int:
+    global inimigo
     ## Mostra tela de escolha e devolve 1, 2 ou 3.
     selecao_img = pygame.image.load("telas/tela_mapas.png").convert_alpha()
     selecao_img = pygame.transform.scale(selecao_img, (width, height))
@@ -231,40 +234,18 @@ def escolher_mapa(screen) -> int:
                 pygame.quit() #; sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
+                    inimigo = 0
                     return 1
                 if event.key == pygame.K_2:
+                    inimigo = 1
                     return 2
                 if event.key == pygame.K_3:
+                    inimigo = 2
                     return 3
-
-
-
-# def tela_inicio():
-#     global mapa_arquivo
-
-#     # Tela de inicio
-#     tela_inicio = pygame.image.load("telas/tela_de_inicio.png")
-#     tela_inicio = pygame.transform.scale(tela_inicio, (width, height))
-#     screen.blit(tela_inicio, (0, 0))
-#     pygame.display.update()
-
-#     # Espera até o jogador apertar qualquer tecla
-#     esperando = True
-#     while esperando:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 pygame.quit()
-#                 #sys.exit()
-#             elif event.type == pygame.KEYDOWN:
-#                 esperando = False
-
-#     # Tela de seleção de Mapas
-#     opcao = escolher_mapa(screen)
-#     mapa_arquivo = MAP_FILES[opcao]
 
 def load():
     global clock, p1CharAnim, tileset, tile_wdt,tile_hgt, clock, p1_hgt,p1_wdt,p2_wdt,p2_hgt, p1CharAnim, p1Mon, p2CharAnim, p2Mon, font, font_menor, font_maior
-    global collider_p1, collider_p2, maca, item_wdt, item_hgt, tempoRestante, port1_wdt, port1_hgt, port2_wdt, port2_hgt, enemyMon, enemyCharAnim, enemyVida
+    global collider_p1, collider_p2, maca, item_wdt, item_hgt, tempoRestante, port1_wdt, port1_hgt, port2_wdt, port2_hgt, enemyMon, enemyCharAnim, enemyVida, enemyPort_wdt, enemyPort_hgt
     global mapa_arquivo
     global collect_sound, punch_sound 
 
@@ -280,38 +261,43 @@ def load():
               "sleep":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
               "walk":{ "spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 100 },
               "attack":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
+              "hurt":{"spriteSheet": pygame.image.load("spritesMons/mudkip/Mudkip-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
               "portrait": {"spriteSheet": pygame.image.load("spritesMons/mudkip/mudkip_portrait.png"), "largura": 5, "altura": 8}}
     chimchar = {"nome": "Chimchar", "color": "orange", "speed":0.12, "water":True, "damage": 5,
                 "idle":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Idle-Anim.png"), "largura": 5, "altura": 8, "frameReset": 4, "animTime": 100 },
                 "sleep":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
                 "walk":{ "spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
                 "attack":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
+                "hurt":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
                 "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
     bulbasaur = {"nome": "Bulbasaur","color": "dark green", "speed": 0.1, "water":True, "damage": 4,
               "idle":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Idle-Anim.png"), "largura": 3, "altura": 8, "frameReset": 2, "animTime": 200 },
               "sleep":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
               "walk":{ "spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 150 },
               "attack":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Attack-Anim.png"), "largura": 11, "altura": 8, "frameReset": 10, "animTime": 50 },
+              "hurt":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
               "portrait": {"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur_portrait.png"), "largura": 5, "altura": 8}}
     wiggly = {"nome": "Wigglytuff","color": "pink", "speed": 0.07, "water":True, "damage": 10,
               "idle":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Idle-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
               "sleep":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
               "walk":{ "spriteSheet": pygame.image.load("spritesMons\wigglytuff\Wiggly-Walk-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
               "attack":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Attack-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
+              "hurt":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
               "portrait": {"spriteSheet": pygame.image.load("spritesMons/wigglytuff/wigglytuff_portrait.png"), "largura": 5, "altura": 8}}
     chatot = {"nome": "Chatot","color": "white", "speed": 0.15, "water":False, "damage": 1,
               "idle":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Idle-Anim.png"), "largura": 8, "altura": 8, "frameReset": 7, "animTime": 150 },
               "sleep":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
               "walk":{ "spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 150 },
               "attack":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Attack-Anim.png"), "largura": 14, "altura": 8, "frameReset": 13, "animTime": 50 },
+              "hurt":{"spriteSheet": pygame.image.load("spritesMons/chatot/Chatot-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
               "portrait": {"spriteSheet": pygame.image.load("spritesMons/chatot/chatot_portrait.png"), "largura": 5, "altura": 8}}
-
+    inimigos = [chatot, bulbasaur, chatot]
     p1Mon = mudkip
     p2Mon = chimchar
     p1CharAnim = p1Mon["idle"]
     p2CharAnim = p2Mon["idle"]
 
-    enemyMon = wiggly
+    enemyMon = inimigos[inimigo]
     enemyCharAnim = enemyMon["sleep"]
     enemyVida = 50
 
@@ -323,6 +309,9 @@ def load():
 
     port2_wdt = p2Mon["portrait"]["spriteSheet"].get_width()/p2Mon["portrait"]["largura"]
     port2_hgt = p2Mon["portrait"]["spriteSheet"].get_height()/p2Mon["portrait"]["altura"]
+
+    enemyPort_wdt = enemyMon["portrait"]["spriteSheet"].get_width()/enemyMon["portrait"]["largura"]
+    enemyPort_hgt = enemyMon["portrait"]["spriteSheet"].get_height()/enemyMon["portrait"]["altura"]
 
     font = pygame.font.Font("PKMN-Mystery-Dungeon.ttf", 75)
     font_menor = pygame.font.Font("PKMN-Mystery-Dungeon.ttf", 55)
@@ -346,8 +335,8 @@ def load():
 def update(dt):
     global p1_animation_frame, p1_directionFrame, p1_pos_x, p1_pos_y, p1_anim_time, collider_p1, p1CharAnim, p1Mon, p1_wdt, p1_hgt, p1PortraitFrame
     global p2_animation_frame, p2_directionFrame, p2_pos_y, p2_pos_x, p2_anim_time, collider_p2, p2CharAnim, p2Mon, p2_wdt, p2_hgt, p2PortraitFrame
-    global enemy_animation_frame, enemy_directionFrame, enemy_pos_y, enemy_pos_x, enemy_anim_time, collider_enemy, enemyCharAnim, enemyMon, enemy_wdt, enemy_hgt
-    global minutos, segundos, cont, timerItem, pontP1, pontP2, cronometro, pontosP1, pontosP2, tempoRestante, tempoPercent, running, fim, enemyVida, target
+    global enemy_animation_frame, enemy_directionFrame, enemy_pos_y, enemy_pos_x, enemy_anim_time, collider_enemy, enemyCharAnim, enemyMon, enemy_wdt, enemy_hgt, hitstun
+    global minutos, segundos, cont, timerItem, pontP1, pontP2, pontEnemy, cronometro, pontosP1, pontosP2, pontosEnemy, tempoRestante, tempoPercent, running, fim, enemyVida, target, enemyPortraitFrame
     
     if tempoRestante <= 0:
         running = False #para o jogo
@@ -375,6 +364,7 @@ def update(dt):
 
     p1PortraitFrame = 0
     p2PortraitFrame = 0
+    enemyPortraitFrame = 0
 
     #Animação
     p1_anim_time = p1_anim_time + dt 
@@ -504,6 +494,7 @@ def update(dt):
     #Pontuações
     pontosP1 = font.render("%d"%pontP1, "False", p1Mon["color"])
     pontosP2 = font.render("%d"%pontP2, "False", p2Mon["color"])
+    pontosEnemy = font.render("%d"%pontEnemy, "False", enemyMon["color"])
 
     #Criando maçãs
     timerItem += dt
@@ -555,6 +546,11 @@ def update(dt):
             enemy_pos_x = enemy_pos_x - dt*enemyMon["speed"]
         elif enemy_animation_frame == 0 and lMacaCol == []:
             enemyCharAnim = enemyMon["idle"]
+    elif enemyCharAnim == enemyMon["hurt"]:
+        hitstun -= dt
+        if hitstun <= 0:
+            hitstun = 500
+            enemyCharAnim = enemyMon["walk"]
         
 
     # Colisão
@@ -577,6 +573,12 @@ def update(dt):
         if lMacaCol != []:
             target = random.choice(lMacaCol)
         pygame.mixer.Sound.play(punch_sound)
+        enemyCharAnim = enemyMon["hurt"]
+        enemy_animation_frame = 0
+        if pontEnemy > 0 and enemyCharAnim == enemyMon["hurt"]:
+            pontEnemy -= 1
+            item = pygame.Rect(random.randint(int(enemy_pos_x-24),int(enemy_pos_x+24)), random.randint(int(enemy_pos_y-24),int(enemy_pos_y+24)), item_wdt, item_hgt)
+            lMacaCol.append(item)
         
     if collider_p2.collidelist(lColliders) >= 0:
         p2_pos_x = old_p2_x
@@ -593,14 +595,28 @@ def update(dt):
         if lMacaCol != []:
             target = random.choice(lMacaCol)
         pygame.mixer.Sound.play(punch_sound)
+        enemyCharAnim = enemyMon["hurt"]
+        enemy_animation_frame = 0
+        if pontEnemy > 0 and enemyCharAnim == enemyMon["hurt"]:
+            pontEnemy -= 1
+            item = pygame.Rect(random.randint(int(enemy_pos_x-24),int(enemy_pos_x+24)), random.randint(int(enemy_pos_y-24),int(enemy_pos_y+24)), item_wdt, item_hgt)
+            lMacaCol.append(item)
     
     if collider_enemy.collidelist(lMacaCol) >= 0:
-        lMacaCol.remove(lMacaCol[collider_enemy.collidelist(lMacaCol)])
-        pygame.mixer.Sound.play(collect_sound)
+        if enemyCharAnim == enemyMon["hurt"]:
+            pass
+        else:
+            lMacaCol.remove(lMacaCol[collider_enemy.collidelist(lMacaCol)])
+            pygame.mixer.Sound.play(collect_sound)
+            pontEnemy += 1
+            enemyVida += 10
+            if enemyVida >= 80:
+                enemyVida = 80
 
-    if enemyVida <= 30:
+    if enemyVida <= 10:
         enemy_directionFrame = 0
         enemyCharAnim = enemyMon["sleep"]
+        hitstun = 500
     
 def draw_screen(screen):
 
@@ -639,37 +655,13 @@ def draw_screen(screen):
     screen.blit(cronometro, cronometro.get_rect(top=0, left=640))
 
     #Desenha pontuação
-    screen.blit(p1Mon["portrait"]["spriteSheet"],(1300,7),(p1PortraitFrame*port1_wdt, p1PortraitFrame*port1_hgt, port1_wdt,port1_hgt))
-    screen.blit(pontosP1, pontosP1.get_rect(top=0, left=1350))
+    screen.blit(p1Mon["portrait"]["spriteSheet"],(148,7),(p1PortraitFrame*port1_wdt, p1PortraitFrame*port1_hgt, port1_wdt,port1_hgt))
+    screen.blit(pontosP1, pontosP1.get_rect(top=0, left=198))
     screen.blit(p2Mon["portrait"]["spriteSheet"],(48,7),(p2PortraitFrame*port2_wdt, p2PortraitFrame*port2_hgt, port2_wdt,port2_hgt))
     screen.blit(pontosP2, pontosP2.get_rect(top=0, left=98))
+    screen.blit(enemyMon["portrait"]["spriteSheet"],(248,7),(enemyPortraitFrame*enemyPort_wdt, enemyPortraitFrame*enemyPort_hgt, enemyPort_wdt,enemyPort_hgt))
+    screen.blit(pontosEnemy, pontosEnemy.get_rect(top=0, left=298))
 
-# def mostrar_tela_final(tela, score1, score2, largura, altura):
-#     texto = font_maior.render("Fim de Jogo!", True, (255, 255, 255))
-#     textoSair = font_menor.render("Aperte SPACE para sair do jogo.", True, (255, 255, 255))
-#     textoReiniciar = font_menor.render("Aperte R para reiniciar o jogo.", True, (255, 255, 255))
-#     score1Texto = font.render(f"%s: {score1} pontos" %p1Mon["nome"], True, (255, 255, 255))
-#     score2Texto = font.render(f"%s: {score2} pontos" %p2Mon["nome"], True, (255, 255, 255))
-
-#     tela.fill((0, 0, 0))
-#     tela.blit(texto, (largura//2 - texto.get_width()//2, altura//5))
-#     tela.blit(score1Texto, (largura//2 - score1Texto.get_width()//2, altura//3))
-#     tela.blit(score2Texto, (largura//2 - score2Texto.get_width()//2, altura//3 + 80))
-#     tela.blit(textoSair, (largura//4 - textoSair.get_width()//2, altura//1.5))
-#     tela.blit(textoReiniciar, (largura//4 - textoSair.get_width()//2, altura//1.3))
-#     pygame.display.flip()
-
-#     #não fechar a janela direto
-#     esperando = True
-#     while esperando:
-#         for evento in pygame.event.get():
-#             if evento.type == pygame.KEYDOWN: 
-#                 if evento.key == pygame.K_SPACE: #finaliza jogo
-#                     esperando = False
-#                 elif evento.key == pygame.K_r: #reinicia jogo
-#                     esperando = False #fecha tela final
-#                     return True
-            
 def resetar_jogo():
     global p1_pos_x, p1_pos_y, p2_pos_x, p2_pos_y
     global p1_animation_frame, p2_animation_frame, p1_anim_time, p2_anim_time, p1_directionFrame, p2_directionFrame
