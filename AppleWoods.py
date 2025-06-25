@@ -278,7 +278,7 @@ def load():
                 "attack":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
                 "hurt":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Hurt-Anim.png"), "largura": 2, "altura": 8, "frameReset": 1, "animTime": 250 },
                 "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
-    bulbasaur = {"nome": "Bulbasaur","color": "dark green", "speed": 0.1, "water":True, "damage": 4,
+    bulbasaur = {"nome": "Bulbasaur","color": "dark green", "speed": 0.11, "water":True, "damage": 4,
               "idle":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Idle-Anim.png"), "largura": 3, "altura": 8, "frameReset": 2, "animTime": 200 },
               "sleep":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
               "walk":{ "spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 150 },
