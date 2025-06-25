@@ -18,7 +18,7 @@ enemy_pos_y = 480
 enemy_anim_time = 0
 width = 24 * 60
 height = 24 * 40
-tempoRestante = 180000
+tempoRestante = 180
 cont = 0
 minutos = tempoRestante//60000
 segundos = 0
@@ -164,9 +164,14 @@ def mostrar_tela_final(tela, score1, score2, largura, altura):
 
     tela_final_fundo = pygame.transform.scale(pygame.image.load("telas/tela_fundo_final.png"), (width, height))
 
-    texto = font_maior.render("Fim de Jogo!", True, (0, 0, 0))
+    if pontEnemy >= pontP1+pontP2:
+        texto = font_maior.render("Derrota!", True, (0, 0, 0))
+    else:
+        texto = font_maior.render("Vitória!", True, (0, 0, 0))
+    
     score1Texto = font.render(f"%s: {score1} pontos" %p1Mon["nome"], True, (255, 255, 255))
     score2Texto = font.render(f"%s: {score2} pontos" %p2Mon["nome"], True, (255, 255, 255))
+    score3Texto = font.render(f"%s: {pontEnemy} pontos" %enemyMon["nome"], True, (255, 255, 255))
     #textoSair = font_menor.render("Aperte SPACE para sair do Jogo.", True, (255, 208, 0))
     #textoReiniciar = font_menor.render("Aperte R para voltar ao menu do Jogo.", True, (255, 208, 0))
     #textoSair_tracado = font_menor.render("Aperte SPACE para sair do Jogo.", True, (0, 0, 0))
@@ -188,7 +193,8 @@ def mostrar_tela_final(tela, score1, score2, largura, altura):
         tela.blit(tela_final_fundo, (0, 0))
         tela.blit(texto, (largura//2 - texto.get_width()//2, altura//5))
         tela.blit(score1Texto, (largura//2 - score1Texto.get_width()//2, altura//3))
-        tela.blit(score2Texto, (largura//2 - score2Texto.get_width()//2, altura//3 + 80))
+        tela.blit(score2Texto, (largura//2 - score2Texto.get_width()//2, altura//3 + 50))
+        tela.blit(score3Texto, (largura//2 - score3Texto.get_width()//2, altura//3 + 100))
         #tela.blit(textoSair_tracado, (largura//4 - textoSair.get_width()//2 - 77, altura//1.1 ))
         #tela.blit(textoReiniciar_tracado, (largura//4 - textoSair.get_width()//2 - 77, altura//1.2 - 20))
         #tela.blit(textoSair, (largura//4 - textoSair.get_width()//2 - 80, altura//1.1))
