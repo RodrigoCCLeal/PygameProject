@@ -287,6 +287,12 @@ def load():
                 "walk":{ "spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Walk-Anim.png"), "largura": 7, "altura": 8, "frameReset": 6, "animTime": 100 },
                 "attack":{"spriteSheet": pygame.image.load("spritesMons/chimchar/Chimchar-Strike-Anim.png"), "largura": 10, "altura": 8, "frameReset": 9, "animTime": 75 },
                 "portrait": {"spriteSheet": pygame.image.load("spritesMons/chimchar/chimchar_portrait.png"), "largura": 5, "altura": 8}}
+    bulbasaur = {"nome": "Bulbasaur","color": "dark green", "speed": 0.1, "water":True, "damage": 4,
+              "idle":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Idle-Anim.png"), "largura": 3, "altura": 8, "frameReset": 2, "animTime": 200 },
+              "sleep":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
+              "walk":{ "spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Walk-Anim.png"), "largura": 6, "altura": 8, "frameReset": 5, "animTime": 150 },
+              "attack":{"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur-Attack-Anim.png"), "largura": 11, "altura": 8, "frameReset": 10, "animTime": 50 },
+              "portrait": {"spriteSheet": pygame.image.load("spritesMons/bulbasaur/Bulbasaur_portrait.png"), "largura": 5, "altura": 8}}
     wiggly = {"nome": "Wigglytuff","color": "pink", "speed": 0.07, "water":True, "damage": 10,
               "idle":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Idle-Anim.png"), "largura": 4, "altura": 8, "frameReset": 3, "animTime": 150 },
               "sleep":{"spriteSheet": pygame.image.load("spritesMons/wigglytuff/Wiggly-Sleep-Anim.png"), "largura": 2, "altura": 1, "frameReset": 1, "animTime": 500 },
@@ -305,7 +311,7 @@ def load():
     p1CharAnim = p1Mon["idle"]
     p2CharAnim = p2Mon["idle"]
 
-    enemyMon = mudkip
+    enemyMon = wiggly
     enemyCharAnim = enemyMon["sleep"]
     enemyVida = 50
 
